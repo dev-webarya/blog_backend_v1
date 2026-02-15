@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: blog
+
+  # MongoDB Configuration
+  data:
+    mongodb:
+      uri: mongodb+srv://devwebarya_db_user:WebArya1234%23@cluster-jj.vlopquo.mongodb.net/blogdb?retryWrites=true&w=majority&appName=Cluster-jj
+
+  # Mail Configuration (Gmail SMTP)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sales.webarya@gmail.com
+    password: smexqkbhgqkvmqvq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+# Swagger / OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+# Blog Application Custom Config
+blog:
+  admin:
+    username: admin
+    password: SecureAdmin@2026
+  otp:
+    length: 6
+    expiry-minutes: 10
+    max-attempts: 5
+    resend-cooldown-seconds: 60
+  pagination:
+    default-page: 0
+    default-size: 10
+    max-size: 50
+  rate-limit:
+    comments-per-minute: 5
+    reactions-per-minute: 10
+  frontend:
+    url: http://localhost:5173
+  notification:
+    enabled: false  # Set to true to enable hourly subscriber email notifications
