@@ -14,5 +14,7 @@ public interface CommentService {
 
     void deleteComment(String commentId);
 
+    void deleteCommentsByBlogId(String blogId);
+
     PageResponse<CommentResponse> getPendingComments(int page, int size);
 }

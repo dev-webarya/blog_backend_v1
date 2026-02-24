@@ -32,4 +32,6 @@ public interface BlogService {
     PageResponse<BlogDetailResponse> getAdminBlogs(String status, int page, int size);
 
     void incrementViewCount(String id);
+
+    void deleteBlog(String id);
 }

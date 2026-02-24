@@ -9,6 +9,7 @@ import com.blogapp.blog.enums.BlogStatus;
 import com.blogapp.blog.mapper.BlogMapper;
 import com.blogapp.blog.repository.BlogPostRepository;
 import com.blogapp.blog.service.BlogService;
+import com.blogapp.comment.service.CommentService;
 import com.blogapp.common.dto.PageResponse;
 import com.blogapp.common.exception.BadRequestException;
 import com.blogapp.common.exception.ResourceNotFoundException;
@@ -38,6 +39,7 @@ public class BlogServiceImpl implements BlogService {
     private final BlogPostRepository blogPostRepository;
     private final BlogMapper blogMapper;
     private final MongoTemplate mongoTemplate;
+    private final CommentService commentService;
 
     @Override
     public PageResponse<BlogSummaryResponse> getPublishedBlogs(String search, Integer year, Integer month,
@@ -261,5 +263,13 @@ public class BlogServiceImpl implements BlogService {
             return Sort.by(Sort.Direction.DESC, "commentsCount");
         }
         return Sort.by(Sort.Direction.DESC, "publishedAt");
+    }
+
+    @Override
+    public void deleteBlog(String id) {
+        BlogPost blog = blogPostRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Blog ", "id: ", id));
+        commentService.deleteCommentsByBlogId(id);
+        blogPostRepository.delete(blog);
     }
 }
