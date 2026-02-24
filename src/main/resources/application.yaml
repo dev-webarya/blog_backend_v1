@@ -8,14 +8,14 @@ spring:
   # MongoDB Configuration
   data:
     mongodb:
-      uri: mongodb+srv://devwebarya_db_user:WebArya1234%23@cluster-jj.vlopquo.mongodb.net/blogdb?retryWrites=true&w=majority&appName=Cluster-jj
+      uri: ${MONGODB_URI:mongodb+srv://devwebarya_db_user:WebArya1234%23@cluster-jj.vlopquo.mongodb.net/blogdb?retryWrites=true&w=majority&appName=Cluster-jj}
 
   # Mail Configuration (Gmail SMTP)
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sales.webarya@gmail.com
-    password: smexqkbhgqkvmqvq
+    username: ${MAIL_USERNAME:sales.webarya@gmail.com}
+    password: ${MAIL_PASSWORD:smexqkbhgqkvmqvq}
     properties:
       mail:
         smtp:
@@ -39,8 +39,8 @@ springdoc:
 # Blog Application Custom Config
 blog:
   admin:
-    username: admin
-    password: SecureAdmin@2026
+    username: ${ADMIN_USERNAME:admin}
+    password: ${ADMIN_PASSWORD:SecureAdmin@2026}
   otp:
     length: 6
     expiry-minutes: 10
@@ -54,6 +54,6 @@ blog:
     comments-per-minute: 5
     reactions-per-minute: 10
   frontend:
-    url: http://localhost:5173
+    url: ${FRONTEND_URL:http://localhost:5173}
   notification:
     enabled: false  # Set to true to enable hourly subscriber email notifications
