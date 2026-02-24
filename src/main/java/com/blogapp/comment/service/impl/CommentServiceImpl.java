@@ -161,4 +161,13 @@ public class CommentServiceImpl implements CommentService {
             return ip;
         }
     }
+
+    @Override
+    public void deleteCommentsByBlogId(String blogId) {
+        List<BlogComment> blogComments = commentRepository.findByBlogId(blogId);
+        if (blogComments.isEmpty()) {
+            throw new ResourceNotFoundException("Comments", "blogId", blogId);
+        }
+        commentRepository.deleteAll(blogComments);
+    }
 }

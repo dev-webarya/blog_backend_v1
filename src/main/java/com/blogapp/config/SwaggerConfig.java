@@ -21,7 +21,7 @@ public class SwaggerConfig {
 
         // Local Development Configuration
         Server localServer = new Server()
-                .url("http://localhost:8080")
+                .url("http://localhost:8024")
                 .description("Local Development");
 
         return new OpenAPI()

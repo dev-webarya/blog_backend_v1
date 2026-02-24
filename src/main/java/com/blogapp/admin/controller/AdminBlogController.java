@@ -7,6 +7,7 @@ import com.blogapp.blog.dto.response.BlogDetailResponse;
 import com.blogapp.blog.entity.BlogPost;
 import com.blogapp.blog.mapper.BlogMapper;
 import com.blogapp.blog.service.BlogService;
+import com.blogapp.comment.service.CommentService;
 import com.blogapp.common.dto.PageResponse;
 import com.blogapp.otp.service.EmailService;
 import com.blogapp.subscriber.dto.response.SubscriberResponse;
@@ -94,6 +95,14 @@ public class AdminBlogController {
 
         BlogPost updatedBlog = blogService.updateBlog(id, request);
         return ResponseEntity.ok(blogMapper.toDetailResponse(updatedBlog));
+    }
+
+    @DeleteMapping("/blogs/{id}")
+    @Operation(summary = "Delete a blog", description = "Delete a blog by ID. Only the author or an admin can delete.")
+    public ResponseEntity<Void> deleteBlog(
+            @Parameter(description = "Blog ID") @PathVariable String id) {
+        blogService.deleteBlog(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/subscribers")
