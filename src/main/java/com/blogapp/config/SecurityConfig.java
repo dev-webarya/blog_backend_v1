@@ -39,17 +39,13 @@ public class SecurityConfig {
                         // Allow CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Public endpoints - blogs, reactions, comments
+                        // Public endpoints
                         .requestMatchers(HttpMethod.GET, "/api/blogs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/blogs/*/reaction").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/blogs/*/reaction").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/blogs/*/comments").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/blogs/*/comments").permitAll()
-
-                        // Public endpoints - subscription
                         .requestMatchers("/api/blogs/subscribe/**").permitAll()
-
-                        // Public endpoints - submission
                         .requestMatchers("/api/blogs/submission/**").permitAll()
 
                         // Swagger / API docs - public
@@ -58,10 +54,9 @@ public class SecurityConfig {
                         // Actuator - public
                         .requestMatchers("/actuator/**").permitAll()
 
-                        // Admin endpoints - require authentication
+                        // Admin endpoints
                         .requestMatchers("/api/admin/**").authenticated()
 
-                        // All other requests - authenticated
                         .anyRequest().authenticated())
                 .httpBasic(basic -> {
                 });
@@ -72,14 +67,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
+        // setAllowedOriginPatterns allows "*" even when allowCredentials is true
+        config.setAllowedOriginPatterns(List.of("*")); 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        // CHANGED: "/**" ensures CORS applies to Swagger UI and API docs
+        source.registerCorsConfiguration("/**", config); 
         return source;
     }
 
