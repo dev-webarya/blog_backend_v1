@@ -14,6 +14,16 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI blogOpenAPI() {
+        // Deployed Server Configuration
+        Server deployedServer = new Server()
+                .url("http://93.127.194.118:8024")
+                .description("Deployed Server");
+
+        // Local Development Configuration
+        Server localServer = new Server()
+                .url("http://localhost:8080")
+                .description("Local Development");
+
         return new OpenAPI()
                 .info(new Info()
                         .title("Blog Application API")
@@ -24,7 +34,7 @@ public class SwaggerConfig {
                         .contact(new Contact()
                                 .name("Blog Admin")
                                 .email("sales.webarya@gmail.com")))
-                .servers(List.of(
-                        new Server().url("http://localhost:8080").description("Local Development")));
+                // The first server in this list becomes the default in Swagger UI
+                .servers(List.of(deployedServer, localServer));
     }
 }
